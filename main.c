@@ -100,11 +100,11 @@ int main() {
                 break;
 
             case 0:
-                printf("Au revoir!\n");
+                printf("au revoir\n");
                 break;
 
             default:
-                printf("Choix non valide. Veuillez reessayer.\n");
+                printf("choix non valide. Veuillez reessayer.\n");
                 break;
         }
     }
