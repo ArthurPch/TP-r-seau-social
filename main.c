@@ -1,114 +1,72 @@
 #include "reseau.h"
-#include <ctype.h>
 
 int main() {
-    ReseauSocial* reseau = initialiser_reseau();
-    int choix = -1;
-    char entree[1024];
+    ReseauSocial *reseau=malloc(sizeof(ReseauSocial));
+    Utilisateur *utilisateur=malloc(sizeof(Utilisateur));
+    printf("Bienvenue sur Indiangram !\n");
+    while (1)
+    {
+    int choix;
+    char nom[100];
+    char message[500];
 
-    printf("Bienvenue sur le Reseau Social Minimaliste!\n");
+    printf("\n--- Menu ---\n");
+    printf("1. Creer un utilisateur\n");
+    printf("2. Ajouter un ami\n");
+    printf("3. Publier un message\n");
+    printf("4. Liste des utilisateurs\n");
+    printf("5. Voir mes amis\n");
+    printf("6. Voir mes publications\n");
+    printf("0. Quitter\n");
+    printf("Votre choix : ");
+    scanf("%d", &choix);
+    getchar();
+    system("cls");
 
-    while (choix != 0) {
-        afficher_menu();
-        choix = lire_entier();
-
-        switch (choix) {
-            case 1: 
-                printf("Entrez le pseudo de l'utilisateur: ");
-                lire_chaine(entree, sizeof(entree));
-                Utilisateur* nouvel_utilisateur = ajouter_utilisateur(reseau, entree);
-                if (nouvel_utilisateur) {
-                    printf("Utilisateur cree avec succes! ID: %d\n", nouvel_utilisateur->identifiant);
-                }
+    switch (choix) {
+            case 1:
+                printf("Nom de l'utilisateur : ");
+                fgets(nom, sizeof(nom), stdin);
+                ajouter_utilisateur(reseau, nom);
                 break;
 
-            case 2: 
-                printf("Entrez l'ID ou le pseudo de l'utilisateur: ");
-                lire_chaine(entree, sizeof(entree));
-                Utilisateur* utilisateur = isdigit(entree[0]) ? 
-                    trouver_utilisateur_par_id(reseau, atoi(entree)) :
-                    trouver_utilisateur_par_pseudo(reseau, entree);
-
-                if (!utilisateur) {
-                    printf("Utilisateur non trouve.\n");
-                    break;
-                }
-
-                printf("Entrez l'ID ou le pseudo de l'ami a ajouter: ");
-                lire_chaine(entree, sizeof(entree));
-                Utilisateur* ami = isdigit(entree[0]) ? 
-                    trouver_utilisateur_par_id(reseau, atoi(entree)) :
-                    trouver_utilisateur_par_pseudo(reseau, entree);
-
-                if (!ami) {
-                    printf("Ami non trouve.\n");
-                    break;
-                }
-
-                ajouter_ami(utilisateur, ami);
+            case 2:
+                printf("Nom de l'ami : ");
+                fgets(nom, sizeof(nom), stdin);
+                ajouter_ami(utilisateur, nom);
                 break;
 
-            case 3: 
-                printf("Entrez l'ID ou le pseudo de l'utilisateur: ");
-                lire_chaine(entree, sizeof(entree));
-                utilisateur = isdigit(entree[0]) ? 
-                    trouver_utilisateur_par_id(reseau, atoi(entree)) :
-                    trouver_utilisateur_par_pseudo(reseau, entree);
-
-                if (!utilisateur) {
-                    printf("Utilisateur non trouve.\n");
-                    break;
-                }
-
-                printf("Entrez le message a publier: ");
-                lire_chaine(entree, sizeof(entree));
-                publier_message(utilisateur, entree);
+            case 3:
+                printf("Votre message : ");
+                fgets(message, sizeof(message), stdin);
+                publier_message(utilisateur, message);
                 break;
 
-            case 4: 
+            case 4:
                 afficher_utilisateurs(reseau);
                 break;
 
-            case 5: 
-                printf("Entrez l'ID ou le pseudo de l'utilisateur: ");
-                lire_chaine(entree, sizeof(entree));
-                utilisateur = isdigit(entree[0]) ? 
-                    trouver_utilisateur_par_id(reseau, atoi(entree)) :
-                    trouver_utilisateur_par_pseudo(reseau, entree);
-
-                if (!utilisateur) {
-                    printf("Utilisateur non trouve.\n");
-                    break;
-                }
-
+            case 5:
                 afficher_amis(utilisateur);
                 break;
 
-            case 6: 
-                printf("Entrez l'ID ou le pseudo de l'utilisateur: ");
-                lire_chaine(entree, sizeof(entree));
-                utilisateur = isdigit(entree[0]) ? 
-                    trouver_utilisateur_par_id(reseau, atoi(entree)) :
-                    trouver_utilisateur_par_pseudo(reseau, entree);
-
-                if (!utilisateur) {
-                    printf("Utilisateur non trouve.\n");
-                    break;
-                }
-
+            case 6:
                 afficher_publications(utilisateur);
                 break;
 
             case 0:
-                printf("au revoir\n");
-                break;
+                free(reseau);
+                free(utilisateur);
+                reseau=NULL;
+                utilisateur=NULL;
+                printf("Au revoir !\n");
+                return 0;
 
             default:
-                printf("choix non valide. Veuillez reessayer.\n");
-                break;
+                printf("Choix invalide.\n");
         }
-    }
 
-    liberer_reseau(reseau);
+    }
+    
     return 0;
 }
