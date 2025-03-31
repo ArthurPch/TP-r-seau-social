@@ -9,9 +9,9 @@
 typedef struct {
     int id;
     char nom[100];
-    char amis[100];
+    char amis[100][100];
     int nb_amis;
-    char posts[100];
+    char posts[100][100];
     int nb_posts;
 } Utilisateur;
 
@@ -20,12 +20,12 @@ typedef struct {
     int nb_utilisateurs;
 } ReseauSocial;
 
-int ajouter_utilisateur(ReseauSocial *reseau, char *nom);
-Utilisateur* trouver_utilisateur(ReseauSocial *reseau, char *nom);
-void ajouter_ami(Utilisateur *utilisateur, char *ami);
-void publier_message(Utilisateur *utilisateur, char *message);
-void afficher_utilisateurs(ReseauSocial *reseau);
-void afficher_amis(Utilisateur *utilisateur);
-void afficher_publications(Utilisateur *utilisateur);
+int ajouterUtilisateur(ReseauSocial *reseau, char *nom);
+Utilisateur* trouverUtilisateur(ReseauSocial *reseau, char *nom);
+void ajouterAmi(Utilisateur *utilisateur, char *ami);
+void publierMessage(Utilisateur *utilisateur, char *message);
+void afficherUtilisateurs(ReseauSocial *reseau);
+void afficherAmis(Utilisateur *utilisateur);
+void afficherPublications(Utilisateur *utilisateur);
 
 #endif

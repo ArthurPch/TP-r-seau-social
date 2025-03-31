@@ -1,6 +1,6 @@
 #include "reseau.h"
 
-int ajouter_utilisateur(ReseauSocial *reseau, char *nom) {
+int ajouterUtilisateur(ReseauSocial *reseau, char *nom) {
     for (int i = 0; i < reseau->nb_utilisateurs; i++) {
         if (strcmp(reseau->utilisateurs[i].nom, nom) == 0) {
             printf("Ce nom d'utilisateur existe deja.\n");
@@ -14,10 +14,11 @@ int ajouter_utilisateur(ReseauSocial *reseau, char *nom) {
     nouveau->nb_amis = 0;
     nouveau->nb_posts = 0;
 
-    return reseau->nb_utilisateurs++;
+    reseau->nb_utilisateurs++;
+    return 1;
 }
 
-Utilisateur* trouver_utilisateur(ReseauSocial *reseau, char *nom) {
+Utilisateur* trouverUtilisateur(ReseauSocial *reseau, char *nom) {
     for (int i = 0; i < reseau->nb_utilisateurs; i++) {
         if (strcmp(reseau->utilisateurs[i].nom, nom) == 0) {
             return &reseau->utilisateurs[i];
@@ -26,8 +27,7 @@ Utilisateur* trouver_utilisateur(ReseauSocial *reseau, char *nom) {
     return NULL;
 }
 
-void ajouter_ami(Utilisateur *utilisateur, char *ami) {
-
+void ajouterAmi(Utilisateur *utilisateur, char *ami) {
     for (int i = 0; i < utilisateur->nb_amis; i++) {
         if (strcmp(utilisateur->amis[i], ami) == 0) {
             printf("Cet ami existe deja.\n");
@@ -35,35 +35,34 @@ void ajouter_ami(Utilisateur *utilisateur, char *ami) {
         }
     }
 
-    strcpy(utilisateur->amis[utilisateur->nb_amis++], ami);
+    strcpy(utilisateur->amis[utilisateur->nb_amis], ami);
+    utilisateur->nb_amis++;
     printf("%s est maintenant ami avec %s\n", utilisateur->nom, ami);
 }
 
-void publier_message(Utilisateur *utilisateur, char *message) {
-
-    strcpy(utilisateur->posts[utilisateur->nb_posts++], message);
+void publierMessage(Utilisateur *utilisateur, char *message) {
+    strcpy(utilisateur->posts[utilisateur->nb_posts], message);
+    utilisateur->nb_posts++;
     printf("Message publie avec succes !\n");
 }
 
-void afficher_utilisateurs(ReseauSocial *reseau) {
+void afficherUtilisateurs(ReseauSocial *reseau) {
     printf("\n--- Liste des utilisateurs ---\n");
     for (int i = 0; i < reseau->nb_utilisateurs; i++) {
         printf("%d. %s\n", reseau->utilisateurs[i].id, reseau->utilisateurs[i].nom);
     }
 }
 
-void afficher_amis(Utilisateur *utilisateur) {
+void afficherAmis(Utilisateur *utilisateur) {
     printf("\n--- Amis de %s ---\n", utilisateur->nom);
     for (int i = 0; i < utilisateur->nb_amis; i++) {
         printf("%s\n", utilisateur->amis[i]);
     }
 }
 
-void afficher_publications(Utilisateur *utilisateur) {
+void afficherPublications(Utilisateur *utilisateur) {
     printf("\n--- Publications de %s ---\n", utilisateur->nom);
     for (int i = 0; i < utilisateur->nb_posts; i++) {
         printf("%s\n", utilisateur->posts[i]);
     }
 }
-
-    
